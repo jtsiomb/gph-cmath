@@ -79,6 +79,19 @@ static inline void cgm_mgetcol_v4(cgm_vec4 *v, const float *m, int idx)
 
 static inline void cgm_msubmatrix(float *m, int row, int col)
 {
+	int i, j;
+	for(i=0; i<4; i++) {
+		for(j=0; j<4; j++) {
+			int si = i;
+			int sj = j;
+			if(i >= col) si++;
+			if(j >= row) sj++;
+
+			if(si == i && sj == j) continue;
+
+			m[i * 4 + j] = m[si * 4 + sj];
+		}
+	}
 }
 
 static inline void cgm_mupper3(float *m)
