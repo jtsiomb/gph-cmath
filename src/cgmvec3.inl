@@ -151,17 +151,24 @@ static inline void cgm_vrotate_quat(cgm_vec3 *v, const cgm_quat *q)
 	cgm_vcons(v, vq.x, vq.y, vq.z);
 }
 
-static inline void cgm_vrotate_axis(cgm_vec3 *v, const cgm_vec3 *axis, float angle)
+static inline void cgm_vrotate_axis(cgm_vec3 *v, int axis, float angle)
 {
 	float m[16];
 	cgm_mrotation_axis(m, axis, angle);
+	cgm_vmul_m3x3(v, m);
+}
+
+static inline void cgm_vrotate(cgm_vec3 *v, float angle, float x, float y, float z)
+{
+	float m[16];
+	cgm_mrotation(m, angle, x, y, z);
 	cgm_vmul_m3v3(v, m);
 }
 
-static inline void cgm_vrotate_euler(cgm_vec3 *v, const cgm_vec3 *euler, enum cgm_euler_mode mode)
+static inline void cgm_vrotate_euler(cgm_vec3 *v, float a, float b, float c, enum cgm_euler_mode mode)
 {
 	float m[16];
-	cgm_mrotation_euler(m, euler, mode);
+	cgm_mrotation_euler(m, a, b, c, mode);
 	cgm_vmul_m3v3(v, m);
 }
 

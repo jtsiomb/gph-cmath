@@ -76,8 +76,9 @@ static inline void cgm_vreflect(cgm_vec3 *v, const cgm_vec3 *n);
 static inline void cgm_vrefract(cgm_vec3 *v, const cgm_vec3 *n, float ior);
 
 static inline void cgm_vrotate_quat(cgm_vec3 *v, const cgm_quat *q);
-static inline void cgm_vrotate_axis(cgm_vec3 *v, const cgm_vec3 *axis, float angle);
-static inline void cgm_vrotate_euler(cgm_vec3 *v, const cgm_vec3 *euler, enum cgm_euler_mode mode);
+static inline void cgm_vrotate_axis(cgm_vec3 *v, int axis, float angle);
+static inline void cgm_vrotate(cgm_vec3 *v, float angle, float x, float y, float z);
+static inline void cgm_vrotate_euler(cgm_vec3 *v, float a, float b, float c, enum cgm_euler_mode mode);
 
 static inline void cgm_vlerp(cgm_vec3 *res, const cgm_vec3 *a, const cgm_vec3 *b, float t);
 
@@ -129,14 +130,7 @@ static inline void cgm_mcopy(float *dest, const float *src);
 static inline void cgm_mzero(float *m);
 static inline void cgm_midentity(float *m);
 
-static inline void cgm_msetrow_v3(float *m, int idx, const cgm_vec3 *v);
-static inline void cgm_msetrow_v4(float *m, int idx, const cgm_vec4 *v);
-static inline void cgm_msetcol_v3(float *m, int idx, const cgm_vec3 *v);
-static inline void cgm_msetcol_v4(float *m, int idx, const cgm_vec4 *v);
-static inline void cgm_mgetrow_v3(cgm_vec3 *v, const float *m, int idx);
-static inline void cgm_mgetrow_v4(cgm_vec4 *v, const float *m, int idx);
-static inline void cgm_mgetcol_v3(cgm_vec3 *v, const float *m, int idx);
-static inline void cgm_mgetcol_v4(cgm_vec4 *v, const float *m, int idx);
+static inline void cgm_mmul(float *a, const float *b);
 
 static inline void cgm_msubmatrix(float *m, int row, int col);
 static inline void cgm_mupper3(float *m);
@@ -146,6 +140,33 @@ static inline float cgm_mdet(float *m);
 static inline void cgm_mtranspose(float *m);
 static inline void cgm_mcofmatrix(float *m);
 static inline int cgm_minverse(float *m);	/* returns 0 on success, -1 for singular */
+
+static inline void cgm_mtranslation(float *m, float x, float y, float z);
+static inline void cgm_mscaling(float *m, float sx, float sy, float sz);
+static inline void cgm_mrotation_x(float *m, float angle);
+static inline void cgm_mrotation_y(float *m, float angle);
+static inline void cgm_mrotation_z(float *m, float angle);
+static inline void cgm_mrotation_axis(float *m, int idx, float angle);
+static inline void cgm_mrotation(float *m, float angle, float x, float y, float z);
+static inline void cgm_mrotation_euler(float *m, float a, float b, float c, int mode);
+
+static inline void cgm_mtranslate(float *m, float x, float y, float z);
+static inline void cgm_mscale(float *m, float sx, float sy, float sz);
+static inline void cgm_mrotate_x(float *m, float angle);
+static inline void cgm_mrotate_y(float *m, float angle);
+static inline void cgm_mrotate_z(float *m, float angle);
+static inline void cgm_mrotate_axis(float *m, int idx, float angle);
+static inline void cgm_mrotate(float *m, float angle, float x, float y, float z);
+static inline void cgm_mrotate_euler(float *m, float a, float b, float c, int mode);
+
+static inline void cgm_mpretranslate(float *m, float x, float y, float z);
+static inline void cgm_mprescale(float *m, float sx, float sy, float sz);
+static inline void cgm_mprerotate_x(float *m, float angle);
+static inline void cgm_mprerotate_y(float *m, float angle);
+static inline void cgm_mprerotate_z(float *m, float angle);
+static inline void cgm_mprerotate_axis(float *m, int idx, float angle);
+static inline void cgm_mprerotate(float *m, float angle, float x, float y, float z);
+static inline void cgm_mprerotate_euler(float *m, float a, float b, float c, int mode);
 
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
