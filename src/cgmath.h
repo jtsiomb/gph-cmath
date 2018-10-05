@@ -168,6 +168,24 @@ static inline void cgm_mprerotate_axis(float *m, int idx, float angle);
 static inline void cgm_mprerotate(float *m, float angle, float x, float y, float z);
 static inline void cgm_mprerotate_euler(float *m, float a, float b, float c, int mode);
 
+static inline void cgm_mget_translation(const float *m, cgm_vec3 *res);
+static inline void cgm_mget_rotation(const float *m, cgm_quat *res);
+static inline void cgm_mget_scaling(const float *m, cgm_vec3 *res);
+static inline void cgm_mget_frustum_plane(const float *m, int p, cgm_vec4 *res);
+
+static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
+		const cgm_vec3 *up);
+static inline void cgm_minv_lookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
+		const cgm_vec3 *up);
+static inline void cgm_mortho(float *m, float left, float right, float bot, float top,
+		float znear, float zfar);
+static inline void cgm_mfrustum(float *m, float left, float right, float bot, float top,
+		float znear, float zfar);
+static inline void cgm_mperspective(float *m, float vfov, float aspect, float znear, float zfar);
+
+static inline void cgm_mmirror(float *m, float a, float b, float c, float d);
+
+
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
 #include "cgmquat.inl"

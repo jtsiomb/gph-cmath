@@ -358,3 +358,112 @@ static inline void cgm_mprerotate_euler(float *m, float a, float b, float c, int
 	cgm_mrotation_euler(m, a, b, c, mode);
 	cgm_mmul(m, tmp);
 }
+
+
+static inline void cgm_mget_translation(const float *m, cgm_vec3 *res)
+{
+	res->x = m[12];
+	res->y = m[13];
+	res->z = m[14];
+}
+
+/* Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
+ * article "Quaternion Calculus and Fast Animation".
+ * adapted from: http://www.geometrictools.com/LibMathematics/Algebra/Wm5Quaternion.inl
+ */
+static inline void cgm_mget_rotation(const float *m, cgm_quat *res)
+{
+	static const int next[3] = {1, 2, 0};
+	float quat[4];
+	int i, j, k;
+
+	float trace = m[0] + m[5] + m[10];
+	float root;
+
+	if(trace > 0.0f) {
+		// |w| > 1/2
+		root = sqrt(trace + 1.0f);	// 2w
+		res->w = 0.5f * root;
+		root = 0.5f / root;	// 1 / 4w
+		res->x = (m[6] - m[9]) * root;
+		res->y = (m[8] - m[2]) * root;
+		res->z = (m[1] - m[4]) * root;
+	} else {
+		// |w| <= 1/2
+		i = 0;
+		if(m[5] > m[0]) {
+			i = 1;
+		}
+		if(m[10] > m[i * 4 + i]) {
+			i = 2;
+		}
+		j = next[i];
+		k = next[j];
+
+		root = sqrt(m[i * 4 + i] - m[j * 4 + j] - m[k * 4 + k] + 1.0f);
+		quat[i + 1] = 0.5f * root;
+		root = 0.5f / root;
+		quat[0] = (m[j + 4 + k] - m[k * 4 + j]) * root;
+		quat[j + 1] = (m[i * 4 + j] - m[j * 4 + i]) * root;
+		quat[k + 1] = (m[i * 4 + k] - m[k * 4 + i]) * root;
+		res->w = quat[0];
+		res->x = quat[1];
+		res->y = quat[2];
+		res->z = quat[3];
+	}
+}
+
+static inline void cgm_mget_scaling(const float *m, cgm_vec3 *res)
+{
+	res->x = sqrt(m[0] * m[0] + m[4] * m[4] + m[8] * m[8]);
+	res->y = sqrt(m[1] * m[1] + m[5] * m[5] + m[9] * m[9]);
+	res->z = sqrt(m[2] * m[2] + m[6] * m[6] + m[10] * m[10]);
+}
+
+static inline void cgm_mget_frustum_plane(const float *m, int p, cgm_vec4 *res)
+{
+	int row = p >> 1;
+	const float *rowptr = m + row * 4;
+
+	if((p & 1) == 0) {
+		res->x = m[12] + rowptr[0];
+		res->y = m[13] + rowptr[1];
+		res->z = m[14] + rowptr[2];
+		res->w = m[15] + rowptr[3];
+	} else {
+		res->x = m[12] - rowptr[0];
+		res->y = m[13] - rowptr[1];
+		res->z = m[14] - rowptr[2];
+		res->w = m[15] - rowptr[3];
+	}
+}
+
+static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
+		const cgm_vec3 *up)
+{
+	float rot[16], trans[16];
+	cgm_vec3 dir = targ, right, vup;
+
+	cgm_vsub(&dir, pos);
+	cgm_vnormalize(&dir);
+	cgm_vcross(&right, &dir, up);
+	cgm_vnormalize(&right);
+	cgm_vcross(&vup, &right, &dir);
+	cgm_vnormalize(&vup);
+
+
+	rot[0] = right.x;
+	/* TODO cont. */
+}
+
+static inline void cgm_minv_lookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
+		const cgm_vec3 *up);
+
+static inline void cgm_mortho(float *m, float left, float right, float bot, float top,
+		float znear, float zfar);
+static inline void cgm_mfrustum(float *m, float left, float right, float bot, float top,
+		float znear, float zfar);
+static inline void cgm_mperspective(float *m, float vfov, float aspect, float znear, float zfar);
+
+static inline void cgm_mmirror(float *m, float a, float b, float c, float d);
+
