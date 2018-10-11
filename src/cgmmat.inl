@@ -442,7 +442,7 @@ static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *ta
 		const cgm_vec3 *up)
 {
 	float rot[16], trans[16];
-	cgm_vec3 dir = targ, right, vup;
+	cgm_vec3 dir = *targ, right, vup;
 
 	cgm_vsub(&dir, pos);
 	cgm_vnormalize(&dir);

@@ -155,7 +155,7 @@ static inline void cgm_vrotate_axis(cgm_vec3 *v, int axis, float angle)
 {
 	float m[16];
 	cgm_mrotation_axis(m, axis, angle);
-	cgm_vmul_m3x3(v, m);
+	cgm_vmul_m3v3(v, m);
 }
 
 static inline void cgm_vrotate(cgm_vec3 *v, float angle, float x, float y, float z)
