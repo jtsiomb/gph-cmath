@@ -41,11 +41,11 @@ static inline void cgm_msubmatrix(float *m, int row, int col)
 
 	subi = 0;
 	for(i=0; i<4; i++) {
-		if(i == col) continue;
+		if(i == row) continue;
 
 		subj = 0;
 		for(j=0; j<4; j++) {
-			if(j == row) continue;
+			if(j == col) continue;
 
 			m[subi * 4 + subj++] = orig[i * 4 + j];
 		}
@@ -61,19 +61,28 @@ static inline void cgm_mupper3(float *m)
 	m[15] = 1.0f;
 }
 
-static inline float cgm_msubdet(float *m, int row, int col)
+static inline float cgm_msubdet(const float *m, int row, int col)
 {
-	cgm_msubmatrix(m, row, col);
-	return cgm_mdet(m);
+	float tmp[16];
+	float subdet00, subdet01, subdet02;
+
+	cgm_mcopy(tmp, m);
+	cgm_msubmatrix(tmp, row, col);
+
+	subdet00 = tmp[5] * tmp[10] - tmp[6] * tmp[9];
+	subdet01 = tmp[4] * tmp[10] - tmp[6] * tmp[8];
+	subdet02 = tmp[4] * tmp[9] - tmp[5] * tmp[8];
+
+	return tmp[0] * subdet00 - tmp[1] * subdet01 + tmp[2] * subdet02;
 }
 
-static inline float cgm_mcofactor(float *m, int row, int col)
+static inline float cgm_mcofactor(const float *m, int row, int col)
 {
 	float min = cgm_msubdet(m, row, col);
 	return (row + col) & 1 ? -min : min;
 }
 
-static inline float cgm_mdet(float *m)
+static inline float cgm_mdet(const float *m)
 {
 	return m[0] * cgm_msubdet(m, 0, 0) - m[1] * cgm_msubdet(m, 0, 1) +
 		m[2] * cgm_msubdet(m, 0, 2) - m[3] * cgm_msubdet(m, 0, 3);
@@ -123,6 +132,7 @@ static inline int cgm_minverse(float *m)
 			m[i * 4 + j] = cgm_mcofactor(tmp, j, i) * inv_det;	/* transposed */
 		}
 	}
+	return 0;
 }
 
 static inline void cgm_mtranslation(float *m, float x, float y, float z)

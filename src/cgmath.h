@@ -134,9 +134,9 @@ static inline void cgm_mmul(float *a, const float *b);
 
 static inline void cgm_msubmatrix(float *m, int row, int col);
 static inline void cgm_mupper3(float *m);
-static inline float cgm_msubdet(float *m, int row, int col);
-static inline float cgm_mcofactor(float *m, int row, int col);
-static inline float cgm_mdet(float *m);
+static inline float cgm_msubdet(const float *m, int row, int col);
+static inline float cgm_mcofactor(const float *m, int row, int col);
+static inline float cgm_mdet(const float *m);
 static inline void cgm_mtranspose(float *m);
 static inline void cgm_mcofmatrix(float *m);
 static inline int cgm_minverse(float *m);	/* returns 0 on success, -1 for singular */

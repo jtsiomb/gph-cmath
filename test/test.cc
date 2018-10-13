@@ -80,6 +80,30 @@ bool test_mat()
 	a.pre_rotate_y(trans.x);
 	ASSERT_EQ(a, ca);
 
+	cgm_mcopy(cb, ca);
+	cgm_mtranspose(cb);
+	b = a;
+	b.transpose();
+	ASSERT_EQ(b, cb);
+
+	for(int i=0; i<4; i++) {
+		for(int j=0; j<4; j++) {
+			cgm_mcopy(cb, ca);
+			b = a;
+
+			cgm_msubmatrix(cb, i, j);
+			Mat3 sub = b.submatrix(i, j);
+			b = Mat4::identity;
+			float *bp = b[0];
+			float *sp = sub[0];
+			bp[0] = sp[0]; bp[1] = sp[1]; bp[2] = sp[2];
+			bp[4] = sp[3]; bp[5] = sp[4]; bp[6] = sp[5];
+			bp[8] = sp[6]; bp[9] = sp[7]; bp[10] = sp[8];
+
+			ASSERT_EQ(b, cb);
+		}
+	}
+
 	cgm_minverse(ca);
 	a.inverse();
 	ASSERT_EQ(a, ca);
