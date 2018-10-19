@@ -1,4 +1,4 @@
-/* C version of the graphene math library
+/* gph-cmath - C graphics math library
  * Copyright (C) 2018 John Tsiombikas <nuclear@member.fsf.org>
  *
  * This program is free software. Feel free to use, modify, and/or redistribute
@@ -18,7 +18,7 @@
  *
  * NOTE: matrices are treated by all operations as column-major, to match OpenGL
  * conventions, so everything is pretty much transposed.
- */
+*/
 #ifndef CGMATH_H_
 #define CGMATH_H_
 
