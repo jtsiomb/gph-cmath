@@ -451,7 +451,7 @@ static inline void cgm_mget_frustum_plane(const float *m, int p, cgm_vec4 *res)
 static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
 		const cgm_vec3 *up)
 {
-	float rot[16], trans[16];
+	float trans[16];
 	cgm_vec3 dir = *targ, right, vup;
 
 	cgm_vsub(&dir, pos);
@@ -461,19 +461,109 @@ static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *ta
 	cgm_vcross(&vup, &right, &dir);
 	cgm_vnormalize(&vup);
 
+	cgm_midentity(m);
+	m[0] = right.x;
+	m[1] = right.y;
+	m[2] = right.z;
+	m[4] = vup.x;
+	m[5] = vup.y;
+	m[6] = vup.z;
+	m[8] = -dir.x;
+	m[9] = -dir.y;
+	m[10] = -dir.z;
 
-	rot[0] = right.x;
-	/* TODO cont. */
+	cgm_mtranslation(trans, pos->x, pos->y, pos->z);
+	cgm_mmul(m, trans);
 }
 
 static inline void cgm_minv_lookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
-		const cgm_vec3 *up);
+		const cgm_vec3 *up)
+{
+	float rot[16];
+	cgm_vec3 dir = *targ, right, vup;
+
+	cgm_vsub(&dir, pos);
+	cgm_vnormalize(&dir);
+	cgm_vcross(&right, &dir, up);
+	cgm_vnormalize(&right);
+	cgm_vcross(&vup, &right, &dir);
+	cgm_vnormalize(&vup);
+
+	cgm_midentity(rot);
+	rot[0] = right.x;
+	rot[4] = right.y;
+	rot[8] = right.z;
+	rot[1] = vup.x;
+	rot[5] = vup.y;
+	rot[9] = vup.z;
+	rot[2] = -dir.x;
+	rot[6] = -dir.y;
+	rot[10] = -dir.z;
+
+	cgm_mtranslation(m, -pos->x, -pos->y, -pos->z);
+	cgm_mmul(m, rot);
+}
 
 static inline void cgm_mortho(float *m, float left, float right, float bot, float top,
-		float znear, float zfar);
+		float znear, float zfar)
+{
+	float dx = right - left;
+	float dy = top - bot;
+	float dz = zfar - znear;
+
+	cgm_midentity(m);
+	m[0] = 2.0f / dx;
+	m[5] = 2.0f / dy;
+	m[10] = -2.0f / dz;
+	m[12] = -(right + left) / dx;
+	m[13] = -(top + bot) / dy;
+	m[14] = -(zfar + znear) / dz;
+}
+
 static inline void cgm_mfrustum(float *m, float left, float right, float bot, float top,
-		float znear, float zfar);
-static inline void cgm_mperspective(float *m, float vfov, float aspect, float znear, float zfar);
+		float znear, float zfar)
+{
+	float dx = right - left;
+	float dy = top - bot;
+	float dz = zfar - znear;
 
-static inline void cgm_mmirror(float *m, float a, float b, float c, float d);
+	cgm_mzero(m);
+	m[0] = 2.0f * znear / dx;
+	m[5] = 2.0f * znear / dy;
+	m[8] = (right + left) / dx;
+	m[9] = (top + bot) / dy;
+	m[10] = -(zfar + znear) / dz;
+	m[14] = -2.0f * zfar * znear / dz;
+	m[11] = -1.0f;
+}
 
+static inline void cgm_mperspective(float *m, float vfov, float aspect, float znear, float zfar)
+{
+	float s = 1.0f / (float)tan(vfov / 2.0f);
+	float range = znear - zfar;
+
+	cgm_mzero(m);
+	m[0] = s / aspect;
+	m[5] = s;
+	m[10] = (znear + zfar) / range;
+	m[14] = 2.0f * znear * zfar / range;
+	m[11] = -1.0f;
+}
+
+static inline void cgm_mmirror(float *m, float a, float b, float c, float d)
+{
+	m[0] = 1.0f - 2.0f * a * a;
+	m[5] = 1.0f - 2.0f * b * b;
+	m[10] = 1.0f - 2.0f * c * c;
+	m[15] = 1.0f;
+
+	m[1] = m[4] = -2.0f * a * b;
+	m[2] = m[8] = -2.0f * a * c;
+	m[6] = m[9] = -2.0f * b * c;
+
+	m[12] = -2.0f * a * d;
+	m[13] = -2.0f * b * d;
+	m[14] = -2.0f * c * d;
+
+	m[3] = m[7] = m[11] = 0.0f;
+}
