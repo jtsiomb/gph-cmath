@@ -182,7 +182,7 @@ static inline void cgm_vrotate_euler(cgm_vec3 *v, float a, float b, float c, enu
 
 static inline void cgm_vlerp(cgm_vec3 *res, const cgm_vec3 *a, const cgm_vec3 *b, float t)
 {
-	res->x = a->x * (b->x - a->x) * t;
-	res->y = a->y * (b->y - a->y) * t;
-	res->z = a->z * (b->z - a->z) * t;
+	res->x = a->x + (b->x - a->x) * t;
+	res->y = a->y + (b->y - a->y) * t;
+	res->z = a->z + (b->z - a->z) * t;
 }

@@ -199,12 +199,16 @@ static inline void cgm_rmul_rm(cgm_ray *ray, const float *m);	/* ray * m4x4 */
 static inline void cgm_rreflect(cgm_ray *ray, const cgm_vec3 *n);
 static inline void cgm_rrefract(cgm_ray *ray, const cgm_vec3 *n, float ior);
 
+/* --- miscellaneous utility functions --- */
+static inline float cgm_deg_to_rad(float deg);
+static inline float cgm_rad_to_deg(float rad);
 
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
 #include "cgmquat.inl"
 #include "cgmmat.inl"
 #include "cgmray.inl"
+#include "cgmmisc.inl"
 
 #ifdef __cplusplus
 }
