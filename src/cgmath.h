@@ -11,6 +11,7 @@
  * - cgm_w... functions are operations on cgm_vec4 vectors
  * - cgm_q... functions are operations on cgm_quat quaternions (w + xi + yj + zk)
  * - cgm_m... functions are operations on 4x4 matrices (stored as linear 16 float arrays)
+ * - cgm_r... functions are operations on cgm_ray rays
  *
  * NOTE: *ALL* matrix arguments are pointers to 16 floats. Even the functions
  * which operate on 3x3 matrices, actually use the upper 3x3 of a 4x4 matrix,
@@ -32,6 +33,10 @@ typedef struct {
 typedef struct {
 	float x, y, z, w;
 } cgm_vec4, cgm_quat;
+
+typedef struct {
+	cgm_vec3 origin, dir;
+} cgm_ray;
 
 typedef enum cgm_euler_mode {
 	CGM_EULER_XYZ,
@@ -185,11 +190,21 @@ static inline void cgm_mperspective(float *m, float vfov, float aspect, float zn
 
 static inline void cgm_mmirror(float *m, float a, float b, float c, float d);
 
+/* --- operations on rays --- */
+static inline void cgm_rcons(cgm_ray *r, float x, float y, float z, float dx, float dy, float dz);
+
+static inline void cgm_rmul_mr(cgm_ray *ray, const float *m);	/* m4x4 * ray */
+static inline void cgm_rmul_rm(cgm_ray *ray, const float *m);	/* ray * m4x4 */
+
+static inline void cgm_rreflect(cgm_ray *ray, const cgm_vec3 *n);
+static inline void cgm_rrefract(cgm_ray *ray, const cgm_vec3 *n, float ior);
+
 
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
 #include "cgmquat.inl"
 #include "cgmmat.inl"
+#include "cgmray.inl"
 
 #ifdef __cplusplus
 }
