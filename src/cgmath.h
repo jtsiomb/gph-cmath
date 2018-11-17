@@ -203,6 +203,22 @@ static inline void cgm_rrefract(cgm_ray *ray, const cgm_vec3 *n, float ior);
 static inline float cgm_deg_to_rad(float deg);
 static inline float cgm_rad_to_deg(float rad);
 
+static inline float cgm_smoothstep(float a, float b, float x);
+static inline float cgm_bezier(float a, float b, float c, float d, float t);
+
+static inline void cgm_discrand(cgm_vec3 *v, float rad);
+static inline void cgm_sphrand(cgm_vec3 *v, float rad);
+
+static inline void cgm_unproject(cgm_vec3 *res, const cgm_vec3 *norm_scrpos,
+		const float *inv_viewproj);
+static inline void cgm_glu_unproject(float winx, float winy, float winz,
+		const float *view, const float *proj, const int *vp,
+		float *objx, float *objy, float *objz);
+
+static inline void cgm_pick_ray(cgm_ray *ray, float nx, float ny,
+		const float *viewmat, const float *projmat);
+
+
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
 #include "cgmquat.inl"
