@@ -123,3 +123,10 @@ static inline void cgm_pick_ray(cgm_ray *ray, float nx, float ny,
 	ray->dir.y = farpt.y - ray->origin.y;
 	ray->dir.z = farpt.z - ray->origin.z;
 }
+
+static inline void cgm_raypos(cgm_vec3 *p, const cgm_ray *ray, float t)
+{
+	p->x = ray->origin.x + ray->dir.x * t;
+	p->y = ray->origin.y + ray->dir.y * t;
+	p->z = ray->origin.z + ray->dir.z * t;
+}

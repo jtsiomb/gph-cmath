@@ -218,6 +218,7 @@ static inline void cgm_glu_unproject(float winx, float winy, float winz,
 static inline void cgm_pick_ray(cgm_ray *ray, float nx, float ny,
 		const float *viewmat, const float *projmat);
 
+static inline void cgm_raypos(cgm_vec3 *p, const cgm_ray *ray, float t);
 
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
