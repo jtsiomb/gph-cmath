@@ -220,6 +220,10 @@ static inline void cgm_pick_ray(cgm_ray *ray, float nx, float ny,
 
 static inline void cgm_raypos(cgm_vec3 *p, const cgm_ray *ray, float t);
 
+/* calculate barycentric coordinates of point pt in triangle (a, b, c) */
+static inline void cgm_bary(cgm_vec3 *bary, const cgm_vec3 *a,
+		const cgm_vec3 *b, const cgm_vec3 *c, const cgm_vec3 *pt);
+
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
 #include "cgmquat.inl"

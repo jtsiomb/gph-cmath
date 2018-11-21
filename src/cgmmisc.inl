@@ -130,3 +130,25 @@ static inline void cgm_raypos(cgm_vec3 *p, const cgm_ray *ray, float t)
 	p->y = ray->origin.y + ray->dir.y * t;
 	p->z = ray->origin.z + ray->dir.z * t;
 }
+
+static inline void cgm_bary(cgm_vec3 *bary, const cgm_vec3 *a,
+		const cgm_vec3 *b, const cgm_vec3 *c, const cgm_vec3 *pt)
+{
+	float d00, d01, d11, d20, d21, denom;
+	cgm_vec3 v0 = *b, v1 = *c, v2 = *pt;
+
+	cgm_vsub(&v0, a);
+	cgm_vsub(&v1, a);
+	cgm_vsub(&v2, a);
+
+	d00 = cgm_vdot(&v0, &v0);
+	d01 = cgm_vdot(&v0, &v1);
+	d11 = cgm_vdot(&v1, &v1);
+	d20 = cgm_vdot(&v2, &v0);
+	d21 = cgm_vdot(&v2, &v1);
+	denom = d00 * d11 - d01 * d01;
+
+	bary->y = (d11 * d20 - d01 * d21) / denom;
+	bary->z = (d00 * d21 - d01 * d20) / denom;
+	bary->x = 1.0f - bary->y - bary->z;
+}
