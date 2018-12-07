@@ -208,6 +208,7 @@ static inline float cgm_deg_to_rad(float deg);
 static inline float cgm_rad_to_deg(float rad);
 
 static inline float cgm_smoothstep(float a, float b, float x);
+static inline float cgm_lerp(float a, float b, float t);
 static inline float cgm_bezier(float a, float b, float c, float d, float t);
 
 static inline void cgm_discrand(cgm_vec3 *v, float rad);
