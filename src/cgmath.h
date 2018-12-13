@@ -124,8 +124,8 @@ static inline void cgm_qnormalize(cgm_quat *q);
 static inline void cgm_qconjugate(cgm_quat *q);
 static inline void cgm_qinvert(cgm_quat *q);
 
-static inline void cgm_qrotation(cgm_quat *q, const cgm_vec3 *axis, float angle);
-static inline void cgm_qrotate(cgm_quat *q, const cgm_vec3 *axis, float angle);
+static inline void cgm_qrotation(cgm_quat *q, float angle, float x, float y, float z);
+static inline void cgm_qrotate(cgm_quat *q, float angle, float x, float y, float z);
 
 static inline void cgm_qslerp(cgm_quat *res, const cgm_quat *a, const cgm_quat *b, float t);
 static inline void cgm_qlerp(cgm_quat *res, const cgm_quat *a, const cgm_quat *b, float t);
