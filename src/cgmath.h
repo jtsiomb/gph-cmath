@@ -27,6 +27,10 @@
 #include <string.h>
 
 typedef struct {
+	float x, y;
+} cgm_vec2;
+
+typedef struct {
 	float x, y, z;
 } cgm_vec3;
 
