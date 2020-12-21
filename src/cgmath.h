@@ -65,7 +65,9 @@ extern "C" {
 static inline void cgm_vcons(cgm_vec3 *v, float x, float y, float z);
 
 static inline void cgm_vadd(cgm_vec3 *a, const cgm_vec3 *b);
+static inline void cgm_vadd_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s); /* a+b*s */
 static inline void cgm_vsub(cgm_vec3 *a, const cgm_vec3 *b);
+static inline void cgm_vsub_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s); /* a-b*s */
 static inline void cgm_vmul(cgm_vec3 *a, const cgm_vec3 *b);
 static inline void cgm_vscale(cgm_vec3 *v, float s);
 static inline void cgm_vmul_m4v3(cgm_vec3 *v, const float *m);	/* m4x4 * v */

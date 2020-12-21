@@ -20,11 +20,25 @@ static inline void cgm_vadd(cgm_vec3 *a, const cgm_vec3 *b)
 	a->z += b->z;
 }
 
+static inline void cgm_vadd_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s)
+{
+	a->x += b->x * s;
+	a->y += b->y * s;
+	a->z += b->z * s;
+}
+
 static inline void cgm_vsub(cgm_vec3 *a, const cgm_vec3 *b)
 {
 	a->x -= b->x;
 	a->y -= b->y;
 	a->z -= b->z;
+}
+
+static inline void cgm_vsub_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s)
+{
+	a->x -= b->x * s;
+	a->y -= b->y * s;
+	a->z -= b->z * s;
 }
 
 static inline void cgm_vmul(cgm_vec3 *a, const cgm_vec3 *b)
