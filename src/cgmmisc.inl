@@ -32,6 +32,12 @@ static inline float cgm_lerp(float a, float b, float t)
 	return a + (b - a) * t;
 }
 
+static inline float cgm_logerp(float a, float b, float t)
+{
+	if(a == 0.0f) return 0.0f;
+	return a * pow(b / a, t);
+}
+
 static inline float cgm_bezier(float a, float b, float c, float d, float t)
 {
 	float omt, omt3, t3, f;
@@ -187,4 +193,17 @@ static inline void cgm_bary(cgm_vec3 *bary, const cgm_vec3 *a,
 	bary->y = (d11 * d20 - d01 * d21) / denom;
 	bary->z = (d00 * d21 - d01 * d20) / denom;
 	bary->x = 1.0f - bary->y - bary->z;
+}
+
+static inline void cgm_uvec_to_sph(float *theta, float *phi, const cgm_vec3 *v)
+{
+	*theta = atan2(v->z, v->x);
+	*phi = acos(v->y);
+}
+
+static inline void cgm_sph_to_uvec(cgm_vec3 *v, float theta, float phi)
+{
+	v->x = sin(theta) * cos(phi);
+	v->y = sin(phi);
+	v->z = cos(theta) * cos(phi);
 }

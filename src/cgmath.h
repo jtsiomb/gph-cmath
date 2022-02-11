@@ -223,6 +223,7 @@ static inline float cgm_rad_to_deg(float rad);
 
 static inline float cgm_smoothstep(float a, float b, float x);
 static inline float cgm_lerp(float a, float b, float t);
+static inline float cgm_logerp(float a, float b, float t);
 static inline float cgm_bezier(float a, float b, float c, float d, float t);
 static inline float cgm_bspline(float a, float b, float c, float d, float t);
 static inline float cgm_spline(float a, float b, float c, float d, float t);
@@ -244,6 +245,10 @@ static inline void cgm_raypos(cgm_vec3 *p, const cgm_ray *ray, float t);
 /* calculate barycentric coordinates of point pt in triangle (a, b, c) */
 static inline void cgm_bary(cgm_vec3 *bary, const cgm_vec3 *a,
 		const cgm_vec3 *b, const cgm_vec3 *c, const cgm_vec3 *pt);
+
+/* convert between unit vectors and spherical coordinates */
+static inline void cgm_uvec_to_sph(float *theta, float *phi, const cgm_vec3 *v);
+static inline void cgm_sph_to_uvec(cgm_vec3 *v, float theta, float phi);
 
 #include "cgmvec3.inl"
 #include "cgmvec4.inl"
