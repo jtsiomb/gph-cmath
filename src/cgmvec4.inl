@@ -14,6 +14,16 @@ static inline void cgm_wcons(cgm_vec4 *v, float x, float y, float z, float w)
 	v->w = w;
 }
 
+static inline cgm_vec4 cgm_wvec(float x, float y, float z, float w)
+{
+	cgm_vec4 v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	v.w = w;
+	return v;
+}
+
 static inline void cgm_wadd(cgm_vec4 *a, const cgm_vec4 *b)
 {
 	a->x += b->x;

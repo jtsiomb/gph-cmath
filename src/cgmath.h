@@ -26,6 +26,8 @@
 #include <math.h>
 #include <string.h>
 
+#define CGM_PI	3.141592653589793
+
 typedef struct {
 	float x, y;
 } cgm_vec2;
@@ -63,6 +65,7 @@ extern "C" {
 
 /* --- operations on cgm_vec3 --- */
 static inline void cgm_vcons(cgm_vec3 *v, float x, float y, float z);
+static inline cgm_vec3 cgm_vvec(float x, float y, float z);
 
 static inline void cgm_vadd(cgm_vec3 *a, const cgm_vec3 *b);
 static inline void cgm_vadd_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s); /* a+b*s */
@@ -97,6 +100,7 @@ static inline void cgm_vlerp(cgm_vec3 *res, const cgm_vec3 *a, const cgm_vec3 *b
 
 /* --- operations on cgm_vec4 --- */
 static inline void cgm_wcons(cgm_vec4 *v, float x, float y, float z, float w);
+static inline cgm_vec4 cgm_wvec(float x, float y, float z, float w);
 
 static inline void cgm_wadd(cgm_vec4 *a, const cgm_vec4 *b);
 static inline void cgm_wsub(cgm_vec4 *a, const cgm_vec4 *b);
@@ -195,6 +199,8 @@ static inline void cgm_mget_translation(const float *m, cgm_vec3 *res);
 static inline void cgm_mget_rotation(const float *m, cgm_quat *res);
 static inline void cgm_mget_scaling(const float *m, cgm_vec3 *res);
 static inline void cgm_mget_frustum_plane(const float *m, int p, cgm_vec4 *res);
+
+static inline void cgm_normalize_plane(cgm_vec4 *p);
 
 static inline void cgm_mlookat(float *m, const cgm_vec3 *pos, const cgm_vec3 *targ,
 		const cgm_vec3 *up);

@@ -133,8 +133,9 @@ static inline void cgm_glu_unproject(float winx, float winy, float winz,
 	cgm_vec3 npos, res;
 	float inv_pv[16];
 
-	cgm_mcopy(inv_pv, proj);
-	cgm_mmul(inv_pv, view);
+	cgm_mcopy(inv_pv, view);
+	cgm_mmul(inv_pv, proj);
+	cgm_minverse(inv_pv);
 
 	npos.x = (winx - vp[0]) / vp[2];
 	npos.y = (winy - vp[1]) / vp[4];
@@ -153,8 +154,9 @@ static inline void cgm_pick_ray(cgm_ray *ray, float nx, float ny,
 	cgm_vec3 npos, farpt;
 	float inv_pv[16];
 
-	cgm_mcopy(inv_pv, projmat);
-	cgm_mmul(inv_pv, viewmat);
+	cgm_mcopy(inv_pv, viewmat);
+	cgm_mmul(inv_pv, projmat);
+	cgm_minverse(inv_pv);
 
 	cgm_vcons(&npos, nx, ny, 0.0f);
 	cgm_unproject(&ray->origin, &npos, inv_pv);
