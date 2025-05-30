@@ -83,6 +83,7 @@ static CGM_INLINE void cgm_vsub(cgm_vec3 *a, const cgm_vec3 *b);
 static CGM_INLINE void cgm_vsub_scaled(cgm_vec3 *a, const cgm_vec3 *b, float s); /* a-b*s */
 static CGM_INLINE void cgm_vmul(cgm_vec3 *a, const cgm_vec3 *b);
 static CGM_INLINE void cgm_vscale(cgm_vec3 *v, float s);
+static CGM_INLINE void cgm_vneg(cgm_vec3 *v);
 static CGM_INLINE void cgm_vmul_m4v3(cgm_vec3 *v, const float *m);	/* m4x4 * v */
 static CGM_INLINE void cgm_vmul_v3m4(cgm_vec3 *v, const float *m);	/* v * m4x4 */
 static CGM_INLINE void cgm_vmul_m3v3(cgm_vec3 *v, const float *m);	/* m3x3 * v (m still 16 floats) */
